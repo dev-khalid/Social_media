@@ -4,16 +4,20 @@
  * 2. Use Yup for form validation
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useStyles from './styles';
 import FileBase from 'react-file-base64';
 import { Typography, Button, Paper, TextField } from '@material-ui/core';
-import {useDispatch} from 'react-redux'; 
-import {createPost} from '../../actions/posts'; 
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost, udpatePost } from '../../actions/posts';
 
 const Form = () => {
-    const dispatch = useDispatch(); 
-    const classes = useStyles();
+  const dispatch = useDispatch();
+  const classes = useStyles();
+  const currentId = useSelector((state) => state.currentId);
+  const post = useSelector(
+    (state) => currentId && state.posts.find((pst) => pst._id == currentId)
+  );
   const [postData, setPostData] = useState({
     creator: '',
     title: '',
@@ -21,8 +25,12 @@ const Form = () => {
     tags: '',
     selectedFile: '',
   });
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
 
   const clear = () => {
+    dispatch({ type: 'SET_CURRENT_ID', payload: '' });
     setPostData({
       creator: '',
       title: '',
@@ -32,16 +40,14 @@ const Form = () => {
     });
   };
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    //now just use the action you created right away 
-    dispatch(createPost(postData)); 
-    setPostData({
-      creator: '',
-      title: '',
-      message: '',
-      tags: '',
-      selectedFile: '',
-    });
+    e.preventDefault();
+    //now just use the action you created right away
+    if (currentId) {
+      dispatch(udpatePost(currentId, postData));
+    } else {
+      dispatch(createPost(postData));
+    }
+    clear();
   };
 
   return (
@@ -52,7 +58,9 @@ const Form = () => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Creating memory</Typography>
+        <Typography variant="h6">
+          {currentId ? `Editing-${post.title}` : 'Creating a Memory'}
+        </Typography>
         <TextField
           name="creator"
           variant="outlined"
@@ -107,13 +115,13 @@ const Form = () => {
           fullWidth
           style={{ marginBottom: 10 }}
         >
-          Submit
+          {currentId ? 'Update' : 'Submit'}
         </Button>
 
         <Button
           variant="contained"
           color="secondary"
-          size="small" 
+          size="small"
           fullWidth
           onClick={clear}
         >
