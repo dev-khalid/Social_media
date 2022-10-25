@@ -1,0 +1,10 @@
+#Need to remember if this task is not completed during development time .. this will not be done in future . Cause i will be busy with some other project.
+
+1.Use Cloudinary for media upload 
+2.Use Image optimization 2 Step of images should be used.{
+    moderate_quality: optimized image 
+    high_quality: the actual image 
+} 
+3.Provide some static content so that the site speed is great
+4.Skleton Should be Provided 
+5.Image lazy loading.
