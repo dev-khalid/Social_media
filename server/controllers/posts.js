@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'; 
 import Posts from '../models/post.js';
 
 /**
@@ -54,4 +54,34 @@ export const updatePost = async (req, res) => {
     //need a proper error handling method on backend.
     res.status(404).send(error.message);
   }
+};
+
+/**
+ * @Serving : /posts/:id
+ * @Request_Type : delete
+ */
+
+export const deletePost = async (req, res) => {
+  const { id } = req.params; 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.status(404).send(`No post found with that ${id}`);
+    }
+    await Posts.findByIdAndDelete(id);
+    res.status(204).send('Post deleted successfully!'); 
+};
+/**
+ * @Serving : /posts/:id/likePost
+ * @Request_Type : patch
+ */
+
+export const likePost = async (req, res) => {
+  const { id } = req.params; 
+    console.log(id); 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      res.status(404).send(`No post found with that ${id}`);
+    }
+    const post =await  Posts.findById(id); 
+    const updatedPost = await Posts.findByIdAndUpdate(id,{likeCount: post.likeCount+1},{new: true}); 
+ 
+    res.status(200).json(updatedPost); 
 };

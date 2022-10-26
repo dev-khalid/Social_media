@@ -29,3 +29,24 @@ export const udpatePost = (id, post) => async (dispatch) => {
     console.error(error.message);
   }
 };
+export const likePost = (id) => async(dispatch) => { 
+  try {
+    const {data} = await api.likePost(id);
+    dispatch({
+      type: 'LIKE', 
+      payload: data
+    }) 
+  } catch (error) {
+    console.error(`Error on like post action. ${error.message}`); 
+    
+  }
+}
+export const deletePost = (id) => async(dispatch) => { 
+  try {
+    await api.deletePost(id); 
+    dispatch({type: 'DELETE',payload: id});//passing the id so that i can sanitize the post with that id . and don't need to call backend for that. 
+
+  } catch (error) {
+    console.error(error.message); 
+  }
+}

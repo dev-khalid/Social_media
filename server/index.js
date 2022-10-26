@@ -2,7 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
-
+import multer from 'multer'; 
+import sharp from 'sharp'; 
 //Routes Import 
 import postRoutes from './routes/posts.js'; 
 
@@ -33,7 +34,26 @@ app.get('/',(req,res,next) => {
 app.use('/posts',postRoutes); 
 
 
+//file upload test 
+const storage = multer.memoryStorage(); 
+const upload = multer({storage}); 
+app.post('/uploads',upload.single('avatar'),async (req,res,next) => { 
+  //now introduce sharp
 
+  const input = Buffer.from(req.file.buffer); 
+  //inside image uploader . the image should be uploaded in 2 different format
+  const data = await sharp(input).resize({
+    height: 240,
+    width: 380,
+  }).jpeg({
+    quality: 80,
+    chromaSubsampling: '4:4:4'
+  }).toFile('uploads/output.png', (err, info) => { 
+    console.error(err); 
+    console.log(info); 
+   });
+  res.send('ok working'); 
+})
 
 
 

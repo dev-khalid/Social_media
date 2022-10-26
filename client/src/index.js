@@ -9,9 +9,4 @@ root.render(
   <Provider store={store}>
     <App />
   </Provider>
-);
-//getting my power back . 
-//one more thing recaped . Redux 
-//Recap done up until this point is : 
-//Redux , Backend . 
-//Still left ? Error handling & crud operation 
+); 
