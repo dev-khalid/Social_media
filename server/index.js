@@ -2,8 +2,10 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
+//Image handling 
 import multer from 'multer'; 
 import sharp from 'sharp'; 
+import base64 from 'base64-arraybuffer';
 //Routes Import 
 import postRoutes from './routes/posts.js'; 
 
@@ -42,16 +44,19 @@ app.post('/uploads',upload.single('avatar'),async (req,res,next) => {
 
   const input = Buffer.from(req.file.buffer); 
   //inside image uploader . the image should be uploaded in 2 different format
-  const data = await sharp(input).resize({
+  const buffer = await sharp(input).resize({
     height: 240,
     width: 380,
   }).jpeg({
     quality: 80,
     chromaSubsampling: '4:4:4'
-  }).toFile('uploads/output.png', (err, info) => { 
-    console.error(err); 
-    console.log(info); 
-   });
+  }).toBuffer(); //image is resized and then buffered . 
+  //use this buffer and make it a string 
+  let imageFormat = 'data:image/jpeg;base64,';
+  const image =imageFormat+ base64.encode(buffer); //this image  is now converted to base 64 string . 
+  console.log(data); 
+  
+  //now take the buffer and convert it to a base 64 string .  
   res.send('ok working'); 
 })
 
