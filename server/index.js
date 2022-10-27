@@ -40,8 +40,8 @@ app.get('/',(req,res,next) => {
 } ); 
 app.use('/posts',postRoutes); 
 
-
-//file upload test 
+/*
+//file upload with multer 
 const storage = multer.memoryStorage(); 
 const upload = multer({storage}); 
 app.post('/uploads',upload.single('chobi'),async (req,res,next) => { 
@@ -85,6 +85,7 @@ app.post('/upload',uploadV2.single('chobi'),(req,res) => {
   res.send('uploaded'); 
 })
 
+*/
 
 
 app.listen(PORT , () => { 

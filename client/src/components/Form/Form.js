@@ -50,14 +50,14 @@ const Form = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    /*
     if (currentId) {
       dispatch(udpatePost(currentId, postData));
     } else {
       dispatch(createPost(postData));
     }
-    */
-   //though we will not use it .. we will surely use a base64 string . buts it's very handy to learn about multipart form data . & other stufs about file handling. 
+    /*
+
+    though we will not use it .. we will surely use a base64 string . buts it's very handy to learn about multipart form data . & other stufs about file handling. 
     const formData = new FormData();
     formData.append('creator', postData.creator);
     formData.append('title',postData.title); 
@@ -65,7 +65,8 @@ const Form = () => {
     console.log(postData); 
     const { data } = await axios.post('http://localhost:5000/upload', formData);
     console.log(data);
-    //clear();
+    */
+    clear();
   };
 
   return (
@@ -116,15 +117,16 @@ const Form = () => {
           onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
         />
         <div className={classes.fileInput}>
-          <input type="file" name="chobi" onChange={e=> setPostData({...postData,selectedFile: e.target.files[0]})}/>
-        </div>
-        {/*<FileBase
+          {/* <input type="file" name="chobi" onChange={e=> setPostData({...postData,selectedFile: e.target.files[0]})}/> */}
+
+          <FileBase
             type="file"
             multiple={false}
             onDone={({ base64 }) =>
               setPostData({ ...postData, selectedFile: base64 })
             }
-          />*/}
+          />
+        </div>
         <Button
           className={classes.buttonSubmit}
           variant="contained"

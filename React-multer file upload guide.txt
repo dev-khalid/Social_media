@@ -1,0 +1,9 @@
+Frontend 
+    On the handle submit function put all the data in FormData().
+    formData.append('propertyName',propertyValue); 
+    formData.append('file_er_jonne_propertyName',file)
+    
+Backend 
+    On backend just parse them . 
+    Files will be on req.file 
+    other text fieds will be on req.body.propertyName
