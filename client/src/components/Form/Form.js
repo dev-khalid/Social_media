@@ -2,8 +2,8 @@
  * @Task_List :
  * 1. Use Formik for form handling
  * 2. Use Yup for form validation
- */ 
-//there will be 2 quality of the images . 
+ */
+//there will be 2 quality of the images .
 
 /*
 Image for banner : 
@@ -11,18 +11,15 @@ Image for banner :
   Width: 500px 
 */
 
-
-
 import React, { useEffect, useState } from 'react';
 import useStyles from './styles';
 import FileBase from 'react-file-base64';
 import { Typography, Button, Paper, TextField } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, udpatePost } from '../../actions/posts';
-import Compressor from 'compressorjs'; 
 import axios from 'axios';
 
-//now compress using compressorjs ? 
+//now compress using compressorjs ?
 const Form = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -52,7 +49,7 @@ const Form = () => {
     });
   };
   const handleSubmit = async (e) => {
-    e.preventDefault();  
+    e.preventDefault();
     /*
     if (currentId) {
       dispatch(udpatePost(currentId, postData));
@@ -60,14 +57,21 @@ const Form = () => {
       dispatch(createPost(postData));
     }
     */
-   const {data} = await axios.post('http://localhost:5000/uploads',postData); 
-    clear();
+   //though we will not use it .. we will surely use a base64 string . buts it's very handy to learn about multipart form data . & other stufs about file handling. 
+    const formData = new FormData();
+    formData.append('creator', postData.creator);
+    formData.append('title',postData.title); 
+    formData.append('chobi', postData.selectedFile);
+    console.log(postData); 
+    const { data } = await axios.post('http://localhost:5000/upload', formData);
+    console.log(data);
+    //clear();
   };
-  
+
   return (
     <Paper>
       <form
-        autoComplete="off"
+        method="post"
         noValidate
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
@@ -110,18 +114,17 @@ const Form = () => {
           fullWidth
           value={postData.tags}
           onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
-        /> 
-        <div className={classes.fileInput} >
-
-          <input type='file' name='chobi' onChange={e=> setPostData({...postData,selectedFile: e.target.files[0]})} />
+        />
+        <div className={classes.fileInput}>
+          <input type="file" name="chobi" onChange={e=> setPostData({...postData,selectedFile: e.target.files[0]})}/>
         </div>
-          {/*<FileBase
+        {/*<FileBase
             type="file"
             multiple={false}
             onDone={({ base64 }) =>
               setPostData({ ...postData, selectedFile: base64 })
             }
-          />*/} 
+          />*/}
         <Button
           className={classes.buttonSubmit}
           variant="contained"

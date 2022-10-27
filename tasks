@@ -12,7 +12,5 @@ high_quality: the actual image
 4.Skleton Should be Provided
 5.Image lazy loading.
 
-
-# use multer with react . (convert the image to a base 64 string and then resize it on backend . without using multer. )
-# its necessary to use react with multer . it could be a requirement at some point . 
-# check the video . https://www.youtube.com/watch?v=Rw_QeJLnCK4
+###### Done ######
+1. use multer with react .   
