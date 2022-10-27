@@ -2,7 +2,16 @@
  * @Task_List :
  * 1. Use Formik for form handling
  * 2. Use Yup for form validation
- */
+ */ 
+//there will be 2 quality of the images . 
+
+/*
+Image for banner : 
+  Height: 280px 
+  Width: 500px 
+*/
+
+
 
 import React, { useEffect, useState } from 'react';
 import useStyles from './styles';
@@ -10,7 +19,10 @@ import FileBase from 'react-file-base64';
 import { Typography, Button, Paper, TextField } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, udpatePost } from '../../actions/posts';
+import Compressor from 'compressorjs'; 
+import axios from 'axios';
 
+//now compress using compressorjs ? 
 const Form = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -36,20 +48,22 @@ const Form = () => {
       title: '',
       message: '',
       tags: '',
-      selectedFile: '',
+      selectedFile: null,
     });
   };
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    //now just use the action you created right away
+    e.preventDefault();  
+    /*
     if (currentId) {
       dispatch(udpatePost(currentId, postData));
     } else {
       dispatch(createPost(postData));
     }
+    */
+   const {data} = await axios.post('http://localhost:5000/uploads',postData); 
     clear();
   };
-
+  
   return (
     <Paper>
       <form
@@ -96,16 +110,18 @@ const Form = () => {
           fullWidth
           value={postData.tags}
           onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
-        />
-        <div className={classes.fileInput}>
-          <FileBase
+        /> 
+        <div className={classes.fileInput} >
+
+          <input type='file' name='chobi' onChange={e=> setPostData({...postData,selectedFile: e.target.files[0]})} />
+        </div>
+          {/*<FileBase
             type="file"
             multiple={false}
             onDone={({ base64 }) =>
               setPostData({ ...postData, selectedFile: base64 })
             }
-          />
-        </div>
+          />*/} 
         <Button
           className={classes.buttonSubmit}
           variant="contained"

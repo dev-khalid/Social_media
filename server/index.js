@@ -2,12 +2,18 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
+//Routes Import 
+import postRoutes from './routes/posts.js'; 
+
+
+ 
 //Image handling 
 import multer from 'multer'; 
 import sharp from 'sharp'; 
 import base64 from 'base64-arraybuffer';
-//Routes Import 
-import postRoutes from './routes/posts.js'; 
+ 
+
+
 
 
 const app = express();
@@ -28,7 +34,6 @@ mongoose
   .catch((err) => console.log('Failed connection . ❌❌❌\n',err.message));
 
 
-
 //Start working from here 
 app.get('/',(req,res,next) => { 
   res.send("Welcome to backend"); 
@@ -39,8 +44,9 @@ app.use('/posts',postRoutes);
 //file upload test 
 const storage = multer.memoryStorage(); 
 const upload = multer({storage}); 
-app.post('/uploads',upload.single('avatar'),async (req,res,next) => { 
+app.post('/uploads',upload.single('chobi'),async (req,res,next) => { 
   //now introduce sharp
+  console.log(req.file);  
 
   const input = Buffer.from(req.file.buffer); 
   //inside image uploader . the image should be uploaded in 2 different format
@@ -54,17 +60,22 @@ app.post('/uploads',upload.single('avatar'),async (req,res,next) => {
   //use this buffer and make it a string 
   let imageFormat = 'data:image/jpeg;base64,';
   const image =imageFormat+ base64.encode(buffer); //this image  is now converted to base 64 string . 
-  console.log(data); 
+  console.log(image); 
   
   //now take the buffer and convert it to a base 64 string .  
-  res.send('ok working'); 
+  res.status(200).json({
+    chobi: image
+  })
 })
 
 
 
 
 app.listen(PORT , () => { 
-    console.log(`Server running on port : ${PORT}`);    
+  console.log(`Server running on port : ${PORT}`);    
 })
 
-//i am happy  as i am getting the power back . 
+
+ 
+
+ 
