@@ -41,6 +41,7 @@ app.use('/api/posts', postRoutes);
 
 app.post('/api/upload', async (req, res) => {
   const file = req.body.selectedFile;
+  //problem . 
   
   let q = 70;
   let buffer = await sharp(file)
