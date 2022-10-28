@@ -1,5 +1,5 @@
 import axios from 'axios';
-const url = 'http://localhost:5000/posts';
+const url = 'http://localhost:5000/api/posts';
 
 //I like the way they seperated the api calls .
 

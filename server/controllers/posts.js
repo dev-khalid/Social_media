@@ -23,6 +23,12 @@ export const getPosts = async (req, res) => {
 export const createPost = async (req, res) => {
   const postBody = req.body;
   try {
+    //here we need to upload the file to cloudinary first if any . 
+    const file = req.body.selectedFile; 
+    if(file) { 
+      
+
+    }
     const post = await Posts.create(postBody); //this is a async await pattern so any type of error will be passed
     //to next block
     res.status(201).json(post);

@@ -50,11 +50,15 @@ const Form = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const {data} = await axios.post('http://localhost:5000/api/upload',postData); 
+    console.log(data); 
+    /*
     if (currentId) {
       dispatch(udpatePost(currentId, postData));
     } else {
       dispatch(createPost(postData));
     }
+    */
     /*
 
     though we will not use it .. we will surely use a base64 string . buts it's very handy to learn about multipart form data . & other stufs about file handling. 
