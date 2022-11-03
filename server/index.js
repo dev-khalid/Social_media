@@ -7,9 +7,8 @@ import * as dotenv from 'dotenv';
 //Routes Import
 import postRoutes from './routes/posts.js';
 
-/* 
-//Image handling 
-import multer from 'multer';  */
+//Image handling
+import multer from 'multer';
 import sharp from 'sharp';
 import base64 from 'base64-arraybuffer';
 
@@ -39,10 +38,17 @@ app.get('/api', (req, res, next) => {
 });
 app.use('/api/posts', postRoutes);
 
-app.post('/api/upload', async (req, res) => {
-  const file = req.body.selectedFile;
-  //problem . 
-  
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+app.post('/api/upload', upload.single('chobi'), async (req, res) => {
+  console.log(req.body.creator); 
+  console.log(req.body); 
+  console.log(req.file); 
+  res.send('working');  
+  /*
+  //problem .
+  console.log(file);
+
   let q = 70;
   let buffer = await sharp(file)
     .jpeg({
@@ -50,10 +56,16 @@ app.post('/api/upload', async (req, res) => {
       chromaSubsampling: '4:4:4',
     })
     .toBuffer();
+
   let imageFormat = 'data:image/jpeg;base64,';
   const imageStr = imageFormat + base64.encode(buffer); //this image  is now converted to base 64 string .
   console.log('what about this: ', imageStr);
   const str = base64.encode(buffer);
+
+
+
+
+  */
 
   //const result = uploadFile(str);
   /*res.json({

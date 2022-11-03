@@ -48,10 +48,26 @@ const Form = () => {
       selectedFile: null,
     });
   };
+  const handleImage = (e) => {
+    setPostData((post) => ({...post,selectedFile: e.target.files[0]})); 
+    // const reader = new FileReader();
+    // reader.readAsArrayBuffer(e.target.files[0]);
+    // reader.onloadend = () => {
+    //   setPostData({ ...postData, selectedFile: reader.result });
+    //   console.log("What we got ",reader.result);
+    // };
+  };
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const {data} = await axios.post('http://localhost:5000/api/upload',postData); 
-    console.log(data); 
+    e.preventDefault(); 
+    const formData = new FormData(); 
+     formData.append('creator', postData.creator);
+     formData.append('title', postData.title);
+     formData.append('chobi', postData.selectedFile);
+     const { data } = await axios.post(
+      'http://localhost:5000/api/upload',
+      formData
+    );
     /*
     if (currentId) {
       dispatch(udpatePost(currentId, postData));
@@ -121,15 +137,15 @@ const Form = () => {
           onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
         />
         <div className={classes.fileInput}>
-          {/* <input type="file" name="chobi" onChange={e=> setPostData({...postData,selectedFile: e.target.files[0]})}/> */}
-
+          <input type="file" name="chobi" onChange={handleImage} />
+          {/*
           <FileBase
             type="file"
             multiple={false}
             onDone={({ base64 }) =>
               setPostData({ ...postData, selectedFile: base64 })
             }
-          />
+          />*/}
         </div>
         <Button
           className={classes.buttonSubmit}
