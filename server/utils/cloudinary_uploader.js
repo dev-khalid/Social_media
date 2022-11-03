@@ -18,6 +18,6 @@ export const uploadFile = async (file) => {
     upload_preset: 'khalid',
     folder: 'social_media',
   });
-  console.log(result);
+  console.log("Data from cloudinary " , result);
   return result; 
 };

@@ -49,43 +49,25 @@ const Form = () => {
     });
   };
   const handleImage = (e) => {
-    setPostData((post) => ({...post,selectedFile: e.target.files[0]})); 
-    // const reader = new FileReader();
-    // reader.readAsArrayBuffer(e.target.files[0]);
-    // reader.onloadend = () => {
-    //   setPostData({ ...postData, selectedFile: reader.result });
-    //   console.log("What we got ",reader.result);
-    // };
+    setPostData((post) => ({ ...post, selectedFile: e.target.files[0] }));
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    const formData = new FormData(); 
-     formData.append('creator', postData.creator);
-     formData.append('title', postData.title);
-     formData.append('chobi', postData.selectedFile);
-     const { data } = await axios.post(
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('creator', postData.creator);
+    formData.append('title', postData.title);
+    formData.append('message', postData.message);
+    formData.append('tags', postData.tags);
+    formData.append('chobi', postData.selectedFile);
+    //this will go to the localhost:5000/api/posts and uploaded there .
+    //also use redux for this.
+    const { data } = await axios.post(
       'http://localhost:5000/api/upload',
       formData
     );
-    /*
-    if (currentId) {
-      dispatch(udpatePost(currentId, postData));
-    } else {
-      dispatch(createPost(postData));
-    }
-    */
-    /*
+    console.log('Data from backend', data);
 
-    though we will not use it .. we will surely use a base64 string . buts it's very handy to learn about multipart form data . & other stufs about file handling. 
-    const formData = new FormData();
-    formData.append('creator', postData.creator);
-    formData.append('title',postData.title); 
-    formData.append('chobi', postData.selectedFile);
-    console.log(postData); 
-    const { data } = await axios.post('http://localhost:5000/upload', formData);
-    console.log(data);
-    */
     clear();
   };
 
