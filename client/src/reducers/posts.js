@@ -1,8 +1,9 @@
+import { CREATE_POST } from "../constants/postConstants";
 export default (posts=[],action) => { 
     switch (action.type) {
       case 'FETCH_ALL':
         return action.payload;
-      case 'CREATE':
+      case CREATE_POST:
         return [...posts, action.payload];
       case 'LIKE': 
         return posts.map(post => post._id==action.payload._id ? action.payload : post); 

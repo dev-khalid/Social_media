@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as api from '../api/index.js';
+import { CREATE_POST } from '../constants/postConstants.js';
 
 //step 2 on redux
 export const getPosts = () => async (dispatch) => {
@@ -15,7 +16,7 @@ export const createPost = (post) => async (dispatch) => {
   try {
     const { data } = await api.createPost(post);
     //now i need to dispatch the action to update the global state
-    dispatch({ type: 'CREATE', payload: data });
+    dispatch({ type: CREATE_POST, payload: data });
   } catch (error) {
     console.error(`Error on post creation : ${error.message}`);
   }

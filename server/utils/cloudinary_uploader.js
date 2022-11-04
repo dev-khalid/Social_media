@@ -11,7 +11,7 @@ cloudinary.config({
 });
 //here first resize the image then upload to cloudinary . 
 
-export const uploadFile = async (file) => {
+  const cloudinaryUploader = async (file) => {
   //it's duty is to recieve a file and upload it and give back the result to the caller
 
   const result = await cloudinary.uploader.upload(file, {
@@ -21,3 +21,4 @@ export const uploadFile = async (file) => {
   console.log("Data from cloudinary " , result);
   return result; 
 };
+export default cloudinaryUploader; 

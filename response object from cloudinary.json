@@ -1,0 +1,22 @@
+{
+  asset_id: '3efa7a4b1b01bc24d64f4827490b29ec',
+  public_id: 'social_media/nycbgw0ec2iaaaurxh4y',
+  version: 1667537004,
+  version_id: '8d715d51816a85f4198f450472eaa1ff',
+  signature: 'b5c74eaf2ec131bd2483d99f71f2229075cd9177',
+  width: 700,
+  height: 467,
+  format: 'webp',
+  resource_type: 'image',
+  created_at: '2022-11-04T04:43:24Z',
+  tags: [],
+  pages: 1,
+  bytes: 34252,
+  type: 'upload',
+  etag: '68f37532223d64f272179a3e1c0ceba1',
+  placeholder: false,
+  url: 'http://res.cloudinary.com/dbmhjwthw/image/upload/v1667537004/social_media/nycbgw0ec2iaaaurxh4y.webp',
+  secure_url: 'https://res.cloudinary.com/dbmhjwthw/image/upload/v1667537004/social_media/nycbgw0ec2iaaaurxh4y.webp',
+  folder: 'social_media',
+  api_key: '317286345589551'
+}

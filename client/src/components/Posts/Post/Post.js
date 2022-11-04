@@ -34,7 +34,7 @@ const Post = ({ post }) => {
       <CardMedia
         className={classes.media}
         image={
-          post.selectedFile ||
+          post.bgImage ||
           'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'
         }
         title={post.title}
@@ -52,7 +52,7 @@ const Post = ({ post }) => {
       </div>
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary" component="h2">
-          {post.tags.map((tag) => `#${tag}`)}
+          {post.tags?.split(',').map((tag) => `#${tag}`)}
         </Typography>
       </div>
       <Typography
@@ -61,7 +61,7 @@ const Post = ({ post }) => {
         className={classes.title}
         gutterBottom
       >
-        {post.title}
+        {post.title && post.title[0].toUpperCase() + post.title.slice(1)}
       </Typography>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">

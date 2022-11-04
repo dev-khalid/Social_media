@@ -59,14 +59,12 @@ const Form = () => {
     formData.append('title', postData.title);
     formData.append('message', postData.message);
     formData.append('tags', postData.tags);
-    formData.append('chobi', postData.selectedFile);
+    formData.append('post_image', postData.selectedFile);
     //this will go to the localhost:5000/api/posts and uploaded there .
     //also use redux for this.
-    const { data } = await axios.post(
-      'http://localhost:5000/api/upload',
-      formData
-    );
-    console.log('Data from backend', data);
+
+    dispatch(createPost(formData)); 
+     
 
     clear();
   };
@@ -119,7 +117,7 @@ const Form = () => {
           onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
         />
         <div className={classes.fileInput}>
-          <input type="file" name="chobi" onChange={handleImage} />
+          <input type="file" name="post_image" onChange={handleImage} />
           {/*
           <FileBase
             type="file"
