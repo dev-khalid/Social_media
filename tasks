@@ -6,7 +6,8 @@ high_quality: the actual image (for banner)
 }
 3.Provide some static content so that the site speed is great
 4.Skleton Should be Provided
-5.Image lazy loading.
+5.Image lazy loading. 
+6. When we are deleting a post or updating a post we need to delete it from cloudinary also . So that it is cost friendly.
 
 ###### Done
 

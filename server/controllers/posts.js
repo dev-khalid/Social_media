@@ -28,7 +28,7 @@ export const createPost = async (req, res) => {
       title: req.body.title,
       message: req.body.message,
       tags: req.body.tags,
-    };
+    }; //could have used ...req.body but it could be malicious . Thats why handpicking the necessary fields only.
     //here we need to upload the file to cloudinary first if any .
     if (req.file) {
       //post data has been read successfully by multer .. now just compress them and get the result from cloudinary
@@ -42,7 +42,7 @@ export const createPost = async (req, res) => {
 
     const createdPost = await Posts.create(post); //this is a async await pattern so any type of error will be passed
     //to next block
-    res.status(201).json(createdPost); 
+    res.status(201).json(createdPost);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
@@ -55,14 +55,27 @@ export const createPost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
   const { id } = req.params;
-  const { title, message, creator, selectedFile, tags } = req.body;
-  const toBeUpdated = { creator, title, message, tags, selectedFile };
+  const { title, message, creator, tags } = req.body;
+  const post = {
+    title,
+    message,
+    creator,
+    tags,
+  };
+  if (req.file) {
+    const banner = await imageOptimizer(req.file, 700, 80);
+    const bgImage = await imageOptimizer(req.file, 400, 50);
+    const bgImageResult = await cloudinaryUploader(bgImage);
+    const bannerResult = await cloudinaryUploader(banner);
+    post.banner = bannerResult.secure_url;
+    post.bgImage = bgImageResult.secure_url;
+  }
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).send(`No Post with Id: ${id}`);
   }
   try {
-    const updatedPost = await Posts.findByIdAndUpdate(id, toBeUpdated, {
+    const updatedPost = await Posts.findByIdAndUpdate(id, post, {
       new: true,
     });
     //output user the latest updated file from  database
@@ -93,7 +106,6 @@ export const deletePost = async (req, res) => {
 
 export const likePost = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   if (!mongoose.Types.ObjectId.isValid(id)) {
     res.status(404).send(`No post found with that ${id}`);
   }

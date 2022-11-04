@@ -16,8 +16,9 @@ import useStyles from './styles';
 import FileBase from 'react-file-base64';
 import { Typography, Button, Paper, TextField } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPost, udpatePost } from '../../actions/posts';
+import { createPost, updatePost } from '../../actions/posts';
 import axios from 'axios';
+import { SET_CURRENT_ID } from '../../constants/postConstants';
 
 //now compress using compressorjs ?
 const Form = () => {
@@ -39,7 +40,7 @@ const Form = () => {
   }, [post]);
 
   const clear = () => {
-    dispatch({ type: 'SET_CURRENT_ID', payload: '' });
+    dispatch({ type: SET_CURRENT_ID, payload: '' });
     setPostData({
       creator: '',
       title: '',
@@ -62,9 +63,11 @@ const Form = () => {
     formData.append('post_image', postData.selectedFile);
     //this will go to the localhost:5000/api/posts and uploaded there .
     //also use redux for this.
-
-    dispatch(createPost(formData)); 
-     
+    if (currentId) {
+      dispatch(updatePost(currentId,formData));
+    } else {
+      dispatch(createPost(formData));
+    }
 
     clear();
   };

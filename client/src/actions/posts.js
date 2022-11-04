@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as api from '../api/index.js';
-import { CREATE_POST } from '../constants/postConstants.js';
+import { CREATE_POST, UPDATE_POST } from '../constants/postConstants.js';
 
 //step 2 on redux
 export const getPosts = () => async (dispatch) => {
@@ -22,10 +22,10 @@ export const createPost = (post) => async (dispatch) => {
   }
 };
 
-export const udpatePost = (id, post) => async (dispatch) => {
+export const updatePost = (id, post) => async (dispatch) => {
   try {
     const { data } = await api.updateP(id, post); //here p stands for post
-    dispatch({ type: 'UPDATE', payload: data });
+    dispatch({ type: UPDATE_POST, payload: data });
   } catch (error) {
     console.error(error.message);
   }

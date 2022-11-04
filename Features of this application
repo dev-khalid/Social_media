@@ -1,0 +1,2 @@
+# Optimized image 
+# When we remove a post or update a post's image we remove the previous copy from cloudinary so that it doesn't waste the storage and becomes cost friendly.

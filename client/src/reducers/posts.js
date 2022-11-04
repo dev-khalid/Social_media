@@ -1,4 +1,4 @@
-import { CREATE_POST } from "../constants/postConstants";
+import { CREATE_POST, UPDATE_POST } from "../constants/postConstants";
 export default (posts=[],action) => { 
     switch (action.type) {
       case 'FETCH_ALL':
@@ -7,7 +7,7 @@ export default (posts=[],action) => {
         return [...posts, action.payload];
       case 'LIKE': 
         return posts.map(post => post._id==action.payload._id ? action.payload : post); 
-      case 'UPDATE':
+      case UPDATE_POST:
         return posts.map((post) =>
           post._id == action.payload._id ? action.payload : post
         );

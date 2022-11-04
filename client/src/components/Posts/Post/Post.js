@@ -14,6 +14,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { deletePost, editAction, likePost } from '../../../actions/posts';
+import { SET_CURRENT_ID } from '../../../constants/postConstants';
 
 const Post = ({ post }) => {
   const classes = useStyles();
@@ -21,14 +22,14 @@ const Post = ({ post }) => {
   const currentId = post._id;
 
   const handleEdit = () => {
-    if (currentId) dispatch({ type: 'SET_CURRENT_ID', payload: currentId });
+    if (currentId) dispatch({ type: SET_CURRENT_ID, payload: currentId });
   };
-  const handleDelete = () => { 
-    dispatch(deletePost(currentId));  
-  }
-  const handleLike = () => { 
-    dispatch(likePost(currentId)); 
-  }
+  const handleDelete = () => {
+    dispatch(deletePost(currentId));
+  };
+  const handleLike = () => {
+    dispatch(likePost(currentId));
+  };
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -52,7 +53,7 @@ const Post = ({ post }) => {
       </div>
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary" component="h2">
-          {post.tags?.split(',').map((tag) => `#${tag}`)}
+          {post.tags?.split(',').map((tag) => `#${tag} `)}
         </Typography>
       </div>
       <Typography
@@ -70,7 +71,8 @@ const Post = ({ post }) => {
       </CardContent>
       <CardActions className={classes.cardActions}>
         <Button size="small" color="primary">
-          <ThumbUpAltIcon fontSize="small" onClick={handleLike}/> {post.likeCount}
+          <ThumbUpAltIcon fontSize="small" onClick={handleLike} />{' '}
+          {post.likeCount}
         </Button>
         <Button size="small" color="primary">
           <DeleteIcon fontSize="small" onClick={handleDelete} />

@@ -10,7 +10,7 @@ const router = Router();
 
 router.get('/', getPosts); 
 router.post('/',uploader.single('post_image'),createPost); 
-router.patch('/:id',updatePost);
+router.patch('/:id',uploader.single('post_image'),updatePost);
 router.patch('/:id/likePost',likePost);  
 router.delete('/:id',deletePost); 
 
