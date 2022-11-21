@@ -50,5 +50,7 @@ app.post('/api/upload', uploader.single('chobi'), async (req, res) => {
 */
 
 app.listen(PORT, () => {
+  console.log(process.env.PORT); 
+
   console.log(`Server running on port : ${PORT}`);
 });
