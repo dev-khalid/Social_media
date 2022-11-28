@@ -10,7 +10,9 @@ high_quality: the actual image (for banner)
 6. When we are deleting a post or updating a post we need to delete it from cloudinary also . So that it is cost friendly.
 
 ###### Done
+Todays task 
+Nginx [1h]
+Docker compose Up With volumes of mongodb & Nginx [1h]
 
-1. use multer with react .
-2. cloudinary image upload
-3. All Image functionality is done (multer + sharp + cloudinary)
+
+//will dockerize this first 

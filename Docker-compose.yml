@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  server:
+    container_name: api
+    build: ./server
+    ports: 
+      - "5000:5000"
+    depends_on:
+      - database
+    links: 
+      - 'database'
+    environment: 
+      MONGO_URI: 'mongodb://database:27017/owndb'
+  database:
+    image: "mongo:latest"
+    restart: always
+    volumes: 
+      - "mongo:/data/db"
+    ports: 
+      - "27017:27017"
+    expose: 
+    - 27017
+    container_name: dbmongo
+    #this will let user use the container in interactive mode 
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: password
+volumes:
+  mongo:

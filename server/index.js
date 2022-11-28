@@ -20,12 +20,10 @@ app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
 
-const CONNECTION_URL = process.env.MONGO_URI;
-const BACKUP_CONNECTION_URI = process.env.MONGO_BACKUP_URI;
 const PORT = process.env.PORT || 5000;
 
 mongoose
-  .connect(BACKUP_CONNECTION_URI, {
+  .connect(`mongodb://localhost:27017/owndb`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -34,7 +32,7 @@ mongoose
 
 //Start working from here
 app.get('/api', (req, res, next) => {
-  res.send('Backend running!');
+  res.json('something');
 });
 app.use('/api/posts', postRoutes);
 /*
@@ -50,7 +48,7 @@ app.post('/api/upload', uploader.single('chobi'), async (req, res) => {
 */
 
 app.listen(PORT, () => {
-  console.log(process.env.PORT); 
+  console.log(process.env.PORT);
 
   console.log(`Server running on port : ${PORT}`);
 });
