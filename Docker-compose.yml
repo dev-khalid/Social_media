@@ -1,31 +1,52 @@
 version: '3.8'
 services:
-  server:
-    container_name: api
+  api:
     build: ./server
-    ports: 
-      - "5000:5000"
+    restart: always
+    # ports:
+    #   - '5000:5000'
     depends_on:
       - database
-    links: 
+    links:
       - 'database'
-    environment: 
-      MONGO_URI: 'mongodb://database:27017/owndb'
+    environment:
+      MONGO_URI: 'mongodb://database:27017'
+    stdin_open: true #so that we can run it later in interactive mode
+    tty: true
   database:
-    image: "mongo:latest"
+    image: 'mongo:latest'
     restart: always
-    volumes: 
-      - "mongo:/data/db"
-    ports: 
-      - "27017:27017"
-    expose: 
-    - 27017
+    volumes:
+      - 'mongo:/data/db'
+    ports:
+      - '27017:27017'
+    expose:
+      - 27017
     container_name: dbmongo
-    #this will let user use the container in interactive mode 
     stdin_open: true # docker run -i
-    tty: true        # docker run -t
-    # environment:
-    #   MONGO_INITDB_ROOT_USERNAME: root
-    #   MONGO_INITDB_ROOT_PASSWORD: password
+    tty: true # docker run -t
+  # webserver:
+  #   build: ./nginxserver
+  #   ports:
+  #     - 80:80
+  webserver:
+    image: nginx:latest
+    depends_on:
+      - api
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+      - ./dhparam:/etc/nginx/dhparam
+      - ./certbot/conf/:/etc/nginx/ssl/
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+    ports:
+      - 80:80
+      - 443:443
+  certbot:
+    image: certbot/certbot:latest
+    command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email rio@dimasrio.com --agree-tos --no-eff-email -d centz.dimasrio.com
+    volumes:
+      - ./certbot/conf/:/etc/letsencrypt
+      - ./certbot/logs/:/var/log/letsencrypt
+      - ./certbot/data:/usr/share/nginx/html/letsencrypt
 volumes:
   mongo:

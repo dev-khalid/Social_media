@@ -21,9 +21,10 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
 
 const PORT = process.env.PORT || 5000;
+console.log('mongo uri', process.env.MONGO_URI);
 
 mongoose
-  .connect(`mongodb://localhost:27017/owndb`, {
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -31,8 +32,27 @@ mongoose
   .catch((err) => console.log('Failed connection . ❌❌❌\n', err.message));
 
 //Start working from here
-app.get('/api', (req, res, next) => {
-  res.json('something');
+const promiseA = (val) => {
+  return new Promise((res, rej) => {
+    if (val >= 100) {
+      res(val);
+    } else {
+      rej('value less than 100 so rejected');
+    }
+  });
+};
+
+app.get('/api', async (req, res, next) => {
+  let val = await promiseA(req.query?.val || 10);
+  res.json(val);
+});
+import os from 'os';
+console.log('operating system : ', os.hostname());
+app.get('/ok', (req, res) => {
+  res.json({
+    message: 'Hello from a container',
+    host: os.hostname(),
+  });
 });
 app.use('/api/posts', postRoutes);
 /*
@@ -47,7 +67,7 @@ app.post('/api/upload', uploader.single('chobi'), async (req, res) => {
 
 */
 
-app.listen(PORT, () => {
+app.listen(5000, () => {
   console.log(process.env.PORT);
 
   console.log(`Server running on port : ${PORT}`);
