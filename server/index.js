@@ -1,8 +1,16 @@
 import express from 'express';
-import bodyParser from 'body-parser';
+import bodyParser  from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
+
+import admin from 'firebase-admin';
+
+// import * as serviceAccount from 'serviceAccountKey.json' assert {type: 'json'}
+
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+// });
 
 //Routes Import
 import postRoutes from './routes/posts.js';
@@ -55,19 +63,16 @@ app.get('/ok', (req, res) => {
   });
 });
 app.use('/api/posts', postRoutes);
-/*
-Optimized image upload with cloudinary demo. 
-app.post('/api/upload', uploader.single('chobi'), async (req, res) => {
-  const file = req.file; 
-  const optimizedOne = await imageOptimizer(file.buffer,100,50);  
-  const result = uploadFile(optimizedOne); 
 
-  res.send(optimizedOne);
-});
 
-*/
+//all about firebase otp
+app.get('/otp-protected',(req,res,next) => { 
+  //firebase authentication token ? 
+})
 
-app.listen(5000, () => {
+
+
+app.listen(process.env.PORT, () => {
   console.log(process.env.PORT);
 
   console.log(`Server running on port : ${PORT}`);

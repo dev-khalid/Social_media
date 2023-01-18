@@ -10,19 +10,27 @@ services:
     links:
       - 'database'
     environment:
-      MONGO_URI: 'mongodb://database:27017'
+      MONGO_URI: 'mongodb://khalid:mikejmahmutucuntydu1khalid15@database:27017/social_media_project?authSource=admin'
+    
     stdin_open: true #so that we can run it later in interactive mode
     tty: true
   database:
     image: 'mongo:latest'
     restart: always
+    command: mongod --auth
+    environment:
+      MONGO_INITDB_DATABASE: social_media_project
+      MONGO_INITDB_ROOT_USERNAME: khalid
+      MONGO_INITDB_ROOT_PASSWORD: mikejmahmutucuntydu1khalid15
     volumes:
       - 'mongo:/data/db'
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     ports:
-      - '27017:27017'
+      - 27017:27017
     expose:
       - 27017
-    container_name: dbmongo
+    
+    # container_name: dbmongo
     stdin_open: true # docker run -i
     tty: true # docker run -t
   # webserver:
@@ -35,12 +43,12 @@ services:
       - api
     volumes:
       - ./conf.d:/etc/nginx/conf.d
-      - ./dhparam:/etc/nginx/dhparam
-      - ./certbot/conf/:/etc/nginx/ssl/
-      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+      # - ./dhparam:/etc/nginx/dhparam
+      # - ./certbot/conf/:/etc/nginx/ssl/
+      # - ./certbot/data:/usr/share/nginx/html/letsencrypt
     ports:
       - 80:80
-      - 443:443
+      # - 443:443
   # certbot:
   #   image: certbot/certbot:latest
   #   command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email khalidhossain727@gmail.com --agree-tos --no-eff-email -d localhost

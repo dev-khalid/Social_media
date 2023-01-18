@@ -7,12 +7,19 @@ import Form from './components/Form/Form';
 import useStyles from './styles';
 import { useDispatch } from 'react-redux';
 import { getPosts } from './actions/posts';
+import axios from 'axios';
+let latestData; 
+const grabData = () => {
+  axios.get('http://localhost:5000/ok') 
+};
+
+const token = await grabData();
+console.log('grab data function : ', token,latestData);
+
 
 const App = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  //step 1 on redux
   useEffect(() => {
     dispatch(getPosts());
   }, [getPosts]);
